@@ -1,0 +1,17 @@
+name: matris
+on: workflow_dispatch
+jobs:
+  sina:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-latest, macos-15-intel]
+        n: [1, 2]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q kyber-py
+      - run: python sina.py
+        env: { MATRIS_OS: "${{ matrix.os }}" }
